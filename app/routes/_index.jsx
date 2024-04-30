@@ -1,5 +1,5 @@
 import React from 'react'
-import { useLoaderData, Form } from '@remix-run/react'
+import { useLoaderData, useFetcher } from '@remix-run/react'
 import {
   BadgesColumn,
   ColorOptionsColumn,
@@ -26,15 +26,77 @@ import { loader as loaderTemplate } from './trippy-trails-template'
 
 export const loader = loaderTemplate
 
-export async function action() {
-  const operation = `#graphql
+function metaobjectWithFields(id, fields) {
+  return {
+    id,
+    metaobject: { fields },
+  }
+}
+
+function requestUpdate(dataPath, loaderResult, newValue) {
+  if (
+    dataPath[0] !== 'reviews' ||
+    typeof dataPath[1] !== 'number'
+  ) {
+    return null
+  }
+
+  const review = loaderResult['reviews'][dataPath[1]]
+  if (review == null) {
+    return null
+  }
+
+  switch (dataPath[2]) {
+    case 'rating':
+      return metaobjectWithFields(review['id'], [
+        {
+          key: 'rating',
+          value: JSON.stringify({
+            scale_min: 1,
+            scale_max: 5,
+            value: newValue,
+          }),
+        },
+      ])
+    case 'summary':
+      return metaobjectWithFields(review['id'], [
+        {
+          key: 'review_summary',
+          value: newValue,
+        },
+      ])
+    case 'reviewerName':
+      return metaobjectWithFields(review['id'], [
+        {
+          key: 'reviewer_name',
+          value: newValue,
+        },
+      ])
+    case 'countryEmoji':
+      return metaobjectWithFields(review['id'], [
+        {
+          key: 'country_emoji',
+          value: newValue,
+        },
+      ])
+    case 'title':
+      return metaobjectWithFields(review['id'], [
+        {
+          key: 'review_title',
+          value: newValue,
+        },
+      ])
+    default:
+      return null
+  }
+}
+
+export async function action({ request }) {
+  const mutation = `#graphql
   mutation UpdateMetaobject($id: ID!, $metaobject: MetaobjectUpdateInput!) {
     metaobjectUpdate(id: $id, metaobject: $metaobject) {
       metaobject {
         handle
-        rating: field(key: "rating") {
-          value
-        }
       }
       userErrors {
         field
@@ -44,21 +106,13 @@ export async function action() {
     }
   }`
 
-  const variables = {
-    id: 'gid://shopify/Metaobject/8960933910',
-    metaobject: {
-      fields: [
-        {
-          key: 'rating',
-          value: JSON.stringify({
-            scale_min: 1,
-            scale_max: 5,
-            value: 3,
-          }),
-        },
-      ],
-    },
-  }
+  const body = await request.formData()
+  const path = JSON.parse(body.get('path'))
+  const valueToSet = JSON.parse(body.get('valueToSet'))
+  const context = JSON.parse(body.get('context'))
+
+  const variables = requestUpdate(path, context, valueToSet)
+  console.log(variables)
 
   const result = await fetch(
     'https://praiseful-pear.myshopify.com/admin/api/2024-04/graphql.json',
@@ -66,10 +120,10 @@ export async function action() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-Shopify-Access-Token': 'token here pls',
+        'X-Shopify-Access-Token': 'mellon',
       },
       body: JSON.stringify({
-        query: operation,
+        query: mutation,
         variables,
       }),
     },
@@ -123,7 +177,24 @@ export const ReviewCard = ({
 )
 
 export default function LandingPage() {
-  const { reviews, recommendedProducts } = useLoaderData()
+  const loaderData = useLoaderData()
+  const { reviews, recommendedProducts } = loaderData
+  console.log(reviews)
+
+  const fetcher = useFetcher()
+
+  const updateMetaobject = React.useCallback(() => {
+    const formData = new FormData()
+    formData.append(
+      'path',
+      JSON.stringify(['reviews', 0, 'rating']),
+    )
+    formData.append('valueToSet', JSON.stringify(3))
+    formData.append('context', JSON.stringify(loaderData))
+    fetcher.submit(formData, {
+      method: 'post',
+    })
+  }, [fetcher, loaderData])
 
   return (
     <Column>
@@ -540,22 +611,21 @@ export default function LandingPage() {
               products and service.
             </Text>
           </Column>
-          <Form method='post'>
-            <button
-              style={{
-                width: 'max-content',
-                padding: '8px 16px',
-                height: 32,
-                borderRadius: 4,
-                backgroundColor: 'teal',
-                alignContent: 'center',
-                color: 'wheat',
-                cursor: 'pointer',
-              }}
-            >
-              update metaobject
-            </button>
-          </Form>
+          <button
+            onClick={updateMetaobject}
+            style={{
+              width: 'max-content',
+              padding: '8px 16px',
+              height: 32,
+              borderRadius: 4,
+              backgroundColor: 'teal',
+              alignContent: 'center',
+              color: 'wheat',
+              cursor: 'pointer',
+            }}
+          >
+            update metaobject
+          </button>
           <Row
             gap={27}
             scrollable
