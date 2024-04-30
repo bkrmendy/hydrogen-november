@@ -1,4 +1,4 @@
-import { useLoaderData } from '@remix-run/react'
+import { useLoaderData, Form } from '@remix-run/react'
 import {
   BadgesColumn,
   ColorOptionsColumn,
@@ -68,8 +68,27 @@ export const ReviewCard = ({
 
 export default function LandingPage() {
   const { reviews, recommendedProducts } = useLoaderData()
+  console.log(reviews)
+
   return (
     <Column>
+      <Form>
+        <button
+          type='submit'
+          style={{
+            width: 'max-content',
+            padding: '8px 16px',
+            height: 32,
+            borderRadius: 4,
+            backgroundColor: 'teal',
+            alignContent: 'center',
+            color: 'wheat',
+            cursor: 'pointer',
+          }}
+        >
+          update metaobject
+        </button>
+      </Form>
       <div
         style={{
           display: 'none',
