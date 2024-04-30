@@ -1,4 +1,5 @@
-import { useLoaderData } from '@remix-run/react'
+import React from 'react'
+import { useLoaderData, Form } from '@remix-run/react'
 import {
   BadgesColumn,
   ColorOptionsColumn,
@@ -24,6 +25,61 @@ import { RecommendedProducts } from '../components/RecommendedProducts'
 import { loader as loaderTemplate } from './trippy-trails-template'
 
 export const loader = loaderTemplate
+
+export async function action() {
+  const operation = `#graphql
+  mutation UpdateMetaobject($id: ID!, $metaobject: MetaobjectUpdateInput!) {
+    metaobjectUpdate(id: $id, metaobject: $metaobject) {
+      metaobject {
+        handle
+        rating: field(key: "rating") {
+          value
+        }
+      }
+      userErrors {
+        field
+        message
+        code
+      }
+    }
+  }`
+
+  const variables = {
+    id: 'gid://shopify/Metaobject/8960933910',
+    metaobject: {
+      fields: [
+        {
+          key: 'rating',
+          value: JSON.stringify({
+            scale_min: 1,
+            scale_max: 5,
+            value: 3,
+          }),
+        },
+      ],
+    },
+  }
+
+  const result = await fetch(
+    'https://praiseful-pear.myshopify.com/admin/api/2024-04/graphql.json',
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Shopify-Access-Token': 'token here pls',
+      },
+      body: JSON.stringify({
+        query: operation,
+        variables,
+      }),
+    },
+  ).then((res) => res.json())
+
+  console.log(JSON.stringify(result))
+
+  // TODO: this doesn't revalidate yet, refresh the page/check in the admin to see the updated rating
+  return result
+}
 
 export const ReviewCard = ({
   children,
@@ -68,6 +124,7 @@ export const ReviewCard = ({
 
 export default function LandingPage() {
   const { reviews, recommendedProducts } = useLoaderData()
+
   return (
     <Column>
       <div
@@ -483,6 +540,22 @@ export default function LandingPage() {
               products and service.
             </Text>
           </Column>
+          <Form method='post'>
+            <button
+              style={{
+                width: 'max-content',
+                padding: '8px 16px',
+                height: 32,
+                borderRadius: 4,
+                backgroundColor: 'teal',
+                alignContent: 'center',
+                color: 'wheat',
+                cursor: 'pointer',
+              }}
+            >
+              update metaobject
+            </button>
+          </Form>
           <Row
             gap={27}
             scrollable
