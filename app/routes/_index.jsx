@@ -26,6 +26,8 @@ import { loader as loaderTemplate } from './trippy-trails-template'
 
 export const loader = loaderTemplate
 
+const SHOPIFY_ACCESS_TOKEN = ''
+
 function metaobjectWithFields(id, fields) {
   return {
     id,
@@ -120,7 +122,7 @@ export async function action({ request }) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-Shopify-Access-Token': 'mellon',
+        'X-Shopify-Access-Token': SHOPIFY_ACCESS_TOKEN,
       },
       body: JSON.stringify({
         query: mutation,
@@ -131,8 +133,7 @@ export async function action({ request }) {
 
   console.log(JSON.stringify(result))
 
-  // TODO: this doesn't revalidate yet, refresh the page/check in the admin to see the updated rating
-  return result
+  return { ok: true }
 }
 
 export const ReviewCard = ({
