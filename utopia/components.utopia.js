@@ -358,14 +358,14 @@ const Components = {
     SpecialRow: {
       component: SpecialRow,
       properties: {
-        left: {
+        imageContent: {
           control: 'jsx',
           preferredContents: [
             PlaceholderContent,
             ...DefaultContent,
           ],
         },
-        right: {
+        detailContent: {
           control: 'jsx',
           preferredContents: [
             PlaceholderContent,
@@ -384,8 +384,8 @@ const Components = {
           code: `<SpecialRow
             style={{ gap: 10 }}
             inverted={false}
-            left={<Placeholder />}
-            right={<Placeholder />}
+            imageContent={<Placeholder />}
+            detailContent={<Placeholder />}
           />`,
         },
       ],

@@ -162,7 +162,7 @@ export default function LandingPage() {
               color: 'white',
               paddingBottom: '2em',
             }}
-            left={
+            imageContent={
               <div
                 style={{
                   contain: 'layout',
@@ -185,7 +185,7 @@ export default function LandingPage() {
                 />
               </div>
             }
-            right={
+            detailContent={
               <Column style={{ padding: '2em 2em' }}>
                 <h2
                   style={{
@@ -251,7 +251,7 @@ export default function LandingPage() {
               color: 'white',
               paddingBottom: '2em',
             }}
-            left={
+            imageContent={
               <div
                 style={{
                   contain: 'layout',
@@ -274,7 +274,7 @@ export default function LandingPage() {
                 />
               </div>
             }
-            right={
+            detailContent={
               <Column style={{ padding: '2em 2em' }}>
                 <h2
                   style={{
@@ -339,7 +339,7 @@ export default function LandingPage() {
               color: 'white',
               paddingBottom: '2em',
             }}
-            left={
+            imageContent={
               <div
                 style={{
                   contain: 'layout',
@@ -360,7 +360,7 @@ export default function LandingPage() {
                 />
               </div>
             }
-            right={
+            detailContent={
               <Column style={{ padding: '2em 2em' }}>
                 <h2
                   style={{

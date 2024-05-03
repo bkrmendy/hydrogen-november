@@ -152,8 +152,8 @@ export const Grid = ({ left, right, padded, gap }) => (
 )
 
 export const SpecialRow = ({
-  left,
-  right,
+  imageContent,
+  detailContent,
   inverted,
   style,
 }) => (
@@ -169,13 +169,13 @@ export const SpecialRow = ({
   >
     {inverted ? (
       <>
-        {right}
-        {left}
+        {detailContent}
+        {imageContent}
       </>
     ) : (
       <>
-        {left}
-        {right}
+        {imageContent}
+        {detailContent}
       </>
     )}
   </div>
