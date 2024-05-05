@@ -96,7 +96,7 @@ export default function LandingPage() {
               </TypographyTitle>
               <TrippyButton>Add to Cart</TrippyButton>
               <Spacer />
-              <WomanSeeking />
+              <Illustration />
             </Column>
           }
           right={
@@ -551,7 +551,7 @@ export default function LandingPage() {
   )
 }
 
-export const WomanSeeking = () => (
+export const Illustration = () => (
   <div style={{ contain: 'layout' }}>
     <div
       style={{
