@@ -510,7 +510,6 @@ const Components = {
     },
     Section: {
       component: Section,
-      icon: 'section',
       properties: {
         verticalPadding: {
           label: 'Vertical Padding',
