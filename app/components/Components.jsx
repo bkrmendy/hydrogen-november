@@ -244,12 +244,31 @@ export const getVerticalPaddingForSize = (size) => {
   }
 }
 
+export const getMinHeightForHeightOption = (
+  heightOption,
+) => {
+  switch (heightOption) {
+    case 'full':
+      return '100vh'
+    case 'most':
+      return '85vh'
+    case 'half':
+      return '50vh'
+    case 'third':
+      return '33vh'
+    case 'dynamic':
+    default:
+      return '0em'
+  }
+}
+
 export const Section = ({
   orientation,
   verticalPadding,
   horizontalPadding,
   minHeight,
   backgroundColor,
+  outline,
   style,
   children,
 }) => {
@@ -262,11 +281,14 @@ export const Section = ({
   return (
     <section
       style={{
+        outline: outline ? '1px solid #007aff' : null,
         paddingTop: verticalPaddingForSize,
         paddingBottom: verticalPaddingForSize,
         paddingLeft: horizontalPaddingForSize,
         paddingRight: horizontalPaddingForSize,
-        minHeight: minHeight ? '85vh' : null,
+        minHeight: minHeight
+          ? getMinHeightForHeightOption(minHeight)
+          : null,
         backgroundColor: backgroundColor ?? null,
         display: 'flex',
         flexDirection:

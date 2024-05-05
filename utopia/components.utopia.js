@@ -510,6 +510,7 @@ const Components = {
     },
     Section: {
       component: Section,
+      icon: 'section',
       properties: {
         verticalPadding: {
           label: 'Vertical Padding',
@@ -536,7 +537,14 @@ const Components = {
         },
         minHeight: {
           label: 'Minimum Height',
-          control: 'checkbox',
+          control: 'popuplist',
+          options: [
+            { label: 'Full', value: 'full' },
+            { label: 'Most', value: 'most' },
+            { label: '1/2', value: 'half' },
+            { label: '1/3', value: 'third' },
+            { label: 'dynamic', value: 'dynamic' },
+          ],
         },
         orientation: Utopia.radioControl([
           { label: 'Vertical', value: 'column' },

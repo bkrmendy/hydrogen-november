@@ -6,6 +6,9 @@ import {
   Section,
   PageTitle,
   Placeholder,
+  TypographyTitle,
+  TypographyText,
+  TypographyParagraph,
 } from '../components/Components'
 
 export function processTestimonials(testimonials) {
@@ -42,9 +45,30 @@ export default function LandingPage() {
     useLoaderData()
   return (
     <Column>
-      <Section minHeight id='top-section'>
-        <TypographyTitle level={1}>Hi!</TypographyTitle>
+      <Section minHeight='full' id='top-section' outline>
+        <TypographyTitle level={1}>
+          Full Height
+        </TypographyTitle>
       </Section>
+      <Section minHeight='most' id='section1' outline>
+        <TypographyTitle level={1}>
+          mostly full height
+        </TypographyTitle>
+      </Section>
+      <Section minHeight='half' id='section2' outline>
+        <TypographyTitle level={1}>
+          Half Height
+        </TypographyTitle>
+      </Section>
+      <Section minHeight='third' id='section3' outline>
+        <TypographyTitle level={1}>A Third</TypographyTitle>
+      </Section>
+      <Section id='section4' outline>
+        <TypographyTitle level={1}>
+          No minimum
+        </TypographyTitle>
+      </Section>
+
       <Section orientation='row'>
         <Placeholder />
         <Placeholder />
