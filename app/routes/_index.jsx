@@ -1,6 +1,5 @@
 import { useLoaderData } from '@remix-run/react'
 import {
-  BadgesColumn,
   ColorOptionsColumn,
   Column,
   DecorativeClouds,
@@ -123,8 +122,11 @@ export default function LandingPage() {
                   srcSet='merchandise/bag-hero@2x.png 2x'
                 />
               </Column>
-              <Column centerV>
-                <BadgesColumn />
+              <Column centerV gap={10}>
+                <img alt='' srcSet='badge_01@2x.png 2x' />
+                <img alt='' srcSet='badge_02@2x.png 2x' />
+                <img alt='' srcSet='badge_03@2x.png 2x' />
+                <img alt='' srcSet='badge_04@2x.png 2x' />
               </Column>
             </Row>
           }

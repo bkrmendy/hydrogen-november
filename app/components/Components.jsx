@@ -704,15 +704,6 @@ export const ColorOptionsColumn = () => (
   </Column>
 )
 
-export const BadgesColumn = () => (
-  <Column gap={10}>
-    <img alt='' srcSet='badge_01@2x.png 2x' />
-    <img alt='' srcSet='badge_02@2x.png 2x' />
-    <img alt='' srcSet='badge_03@2x.png 2x' />
-    <img alt='' srcSet='badge_04@2x.png 2x' />
-  </Column>
-)
-
 export const CircleButton = ({ children }) => (
   <Row
     centerH
