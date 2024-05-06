@@ -21,6 +21,9 @@ import {
 import { RecommendedProducts } from '../components/RecommendedProducts'
 import { loader as loaderTemplate } from './trippy-trails-template'
 import { Image } from '@shopify/hydrogen'
+import * as React from 'react'
+import { Placeholder as Placeholder_2 } from 'utopia-api'
+import { TypographyText } from '../components/Components'
 
 export const loader = loaderTemplate
 
@@ -91,7 +94,7 @@ export default function LandingPage() {
         }}
       />
       <Spacer height='4em' />
-      <Section padded>
+      <Section z>
         <HalfAndHalf
           left={
             <Column gap='1em'>
@@ -149,8 +152,65 @@ export default function LandingPage() {
           }
         />
       </Section>
-      <Section padded>
-        <Spacer height={220} />
+      <Section padded minHeight>
+        <TypographyTitle level={3}>
+          Sample Text
+        </TypographyTitle>
+      </Section>
+      <Section padded minHeight>
+        <Column style={{ gap: 10 }}>
+          {featuredCollections.map((listItem) => (
+            <ProductFeatureRow
+              style={{ gap: 10 }}
+              inverted
+              image={
+                <Image
+                  data={{
+                    altText: listItem['title'],
+                    url: listItem['featuredImage'][
+                      'reference'
+                    ]['image']['url'],
+                    height: 200,
+                    width: 300,
+                  }}
+                />
+              }
+              content={
+                <Column
+                  padded
+                  centerV={false}
+                  centerH={false}
+                  gap={20}
+                  style={{
+                    paddingTop: '80px',
+                    paddingLeft: '32px',
+                    paddingRight: '106px',
+                  }}
+                >
+                  <TypographyTitle
+                    level={4}
+                    style={{
+                      textAlign: 'center',
+                      fontSize: '42px',
+                    }}
+                  >
+                    {listItem['featureTitle']['value']}
+                  </TypographyTitle>
+                  <TypographyParagraph type='secondary'>
+                    {listItem['description']}
+                  </TypographyParagraph>
+                  <Row style={{ gap: 10 }} padded>
+                    {[1, 2, 3].map((listItem) => (
+                      <TypographyText>
+                        Sample Text
+                      </TypographyText>
+                    ))}
+                  </Row>
+                </Column>
+              }
+            />
+          ))}
+        </Column>
       </Section>
       <Section padded>
         <Column centerH>
@@ -178,21 +238,15 @@ export default function LandingPage() {
       <Section style={{ padding: '5em 9em' }}>
         <Column>
           <DecorativeClouds />
-
           {featuredCollections.map((collection, index) => {
             const shouldFlip = index % 2
-
             return (
               <ProductFeatureRow
                 key={collection.id}
                 inverted={shouldFlip}
                 background={collection.color.value}
                 image={
-                  <div
-                    style={{
-                      contain: 'layout',
-                    }}
-                  >
+                  <div style={{ contain: 'layout' }}>
                     <Image
                       style={{ height: 'auto' }}
                       data={
@@ -210,7 +264,7 @@ export default function LandingPage() {
                         collection.featuredTestimonial
                           .reference.rating.value
                       }
-                      backgroundColor='var(--dark-blue)'
+                      backgroundColor=''
                       style={{
                         position: 'relative',
                         left: 100,
