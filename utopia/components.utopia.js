@@ -114,7 +114,7 @@ const SectionVariants = [
       left={
         <Column style={{ gap: 24 }}>
           <TypographyTitle level={1}>
-            We produce high quality bags for lifestyle
+            We produce123 high quality bags for lifestyle
           </TypographyTitle>
           <TrippyButton
             price={
